@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+. "$(dirname -- "$0")/common.sh"
+
+chalk_log "✨ [commit-msg]:start"
+
+pnpm commitlint --edit "$1"
+
+chalk_log "✨ [commit-msg]:end"

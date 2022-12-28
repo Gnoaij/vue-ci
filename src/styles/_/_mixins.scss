@@ -1,0 +1,67 @@
+@use 'sass:meta';
+
+@mixin text-overflow($row: 1) {
+  @if meta.type-of($row) != 'number' {
+    @error 'The argument must be a number!';
+  }
+
+  @if $row > 1 {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: $row;
+    -webkit-box-orient: vertical;
+  } @else {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@mixin screen-less-than($width) {
+  @if meta.type-of($width) != 'number' {
+    @error 'The argument must be a number!';
+  }
+
+  @media only screen and (max-width: $width) {
+    @content;
+  }
+}
+
+@mixin screen-greater-than($width) {
+  @if meta.type-of($width) != 'number' {
+    @error 'The argument must be a number!';
+  }
+
+  @media only screen and (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin screen-between-and($min, $max) {
+  @if meta.type-of($min) != 'number' {
+    @error 'The first argument must be a number!';
+  }
+
+  @if meta.type-of($max) != 'number' {
+    @error 'The second argument must be a number!';
+  }
+
+  @media only screen and (min-width: $min) and (max-width: $max) {
+    @content;
+  }
+}
+
+@mixin screen-not-between-and($min, $max) {
+  @if meta.type-of($min) != 'number' {
+    @error 'The first argument must be a number!';
+  }
+
+  @if meta.type-of($max) != 'number' {
+    @error 'The second argument must be a number!';
+  }
+
+  @media only screen and (max-width: $min), (min-width: $max) {
+    @content;
+  }
+}

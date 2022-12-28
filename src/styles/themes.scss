@@ -1,0 +1,16 @@
+$themes: (
+  light: (
+    text-color-regular: #565656,
+    background-color-regular: #ffffff,
+    background-color-hover: #e0e0e0
+  ),
+  dark: (
+    text-color-regular: #b7b7b7,
+    background-color-regular: #1a1a1a,
+    background-color-hover: #414141
+  ),
+  text-color-active: #42b883,
+  theme-color-transition: 'color 0.3s ease-in, background-color 0.3s ease-in'
+);
+
+@include Themes.themify($themes);

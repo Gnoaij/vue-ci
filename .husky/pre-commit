@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+. "$(dirname -- "$0")/common.sh"
+
+chalk_log "✨ [pre-commit]:start"
+
+# https://github.com/typicode/husky/issues/968
+exec >/dev/tty 2>&1
+
+pnpm lint-staged --concurrent false
+
+chalk_log "✨ [pre-commit]:end"

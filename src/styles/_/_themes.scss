@@ -1,0 +1,68 @@
+@use 'sass:meta';
+@use 'sass:map';
+
+@mixin set-css-var($var, $value) {
+  @if meta.type-of($var) != 'string' {
+    @error 'The first argument must be a string!';
+  }
+
+  @if meta.type-of($value) !=
+    'number' and
+    meta.type-of($value) !=
+    'string' and
+    meta.type-of($value) !=
+    'color'
+  {
+    @error 'The second argument must be a valid CSS value!';
+  }
+
+  --#{$var}: #{$value};
+}
+
+@mixin set-css-vars($map) {
+  @if meta.type-of($map) != 'map' {
+    @error 'The argument must be a map!';
+  }
+
+  @each $var, $value in $map {
+    @include set-css-var($var, $value);
+  }
+}
+
+@mixin set-theme-css($name: '') {
+  @if meta.type-of($name) != 'string' {
+    @error 'The argument must be a string!';
+  }
+
+  @if $name != '' {
+    :root[data-theme='#{$name}'] {
+      @content;
+    }
+  } @else {
+    :root {
+      @content;
+    }
+  }
+}
+
+@mixin themify($themes) {
+  @if meta.type-of($themes) != 'map' {
+    @error 'The argument must be a map!';
+  }
+
+  $common: ();
+
+  @each $name, $map in $themes {
+    @if meta.type-of($map) == 'map' {
+      @include set-theme-css($name) {
+        @include set-css-vars($map);
+      }
+    } @else {
+      $common: map.set($common, $name, $map);
+    }
+  }
+
+  @include set-theme-css {
+    @include set-css-vars($common);
+  }
+}
